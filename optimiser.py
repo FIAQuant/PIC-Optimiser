@@ -56,7 +56,7 @@ class Optimiser:
         OptimizeResult: The result of the optimization.
         """
         constraints = ({'type': 'eq', 'fun': lambda x: np.sum(x) - 1})
-        bounds = tuple((0, 1) for asset in range(self.num_assets))
+        bounds = tuple((-np.inf, np.inf) for asset in range(self.num_assets))
         initial_weights = self.num_assets * [1. / self.num_assets]
 
         opts = minimize(self.neg_sharpe_ratio, initial_weights, method='SLSQP', bounds=bounds, constraints=constraints)
