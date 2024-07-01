@@ -21,6 +21,7 @@ class Optimiser:
         self.risk_free_rate = risk_free_rate
         self.allow_short = allow_short
         self.num_assets = self.portfolio.get_num_assets()
+        self.trading_days_per_year = 252
         self.results = None
 
     def portfolio_performance(self, weights: np.ndarray):
@@ -33,8 +34,8 @@ class Optimiser:
         Returns:
         tuple: Standard deviation and returns of the portfolio.
         """
-        returns = np.sum(self.portfolio.get_mean_returns() * weights) * 252
-        std = np.sqrt(np.dot(weights.T, np.dot(self.portfolio.get_cov_matrix(), weights))) * np.sqrt(252)
+        returns = np.sum(self.portfolio.get_mean_returns() * weights) * self.trading_days_per_year
+        std = np.sqrt(np.dot(weights.T, np.dot(self.portfolio.get_cov_matrix(), weights))) * np.sqrt(self.trading_days_per_year)
         return std, returns
 
     def neg_sharpe_ratio(self, weights: np.ndarray):
