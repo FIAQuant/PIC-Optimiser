@@ -8,16 +8,18 @@ class Optimiser:
     """
     Optimises a given portfolio to maximise the Sharpe ratio (minimise negative Sharpe ratio).
     """
-    def __init__(self, portfolio: Portfolio, risk_free_rate: float =0.0):
+    def __init__(self, portfolio: Portfolio, risk_free_rate: float =0.0, allow_short: bool = True):
         """
         Initialises the Optimiser with a portfolio and risk-free rate.
 
         Parameters:
         portfolio (Portfolio): The portfolio to optimise.
         risk_free_rate (float): The risk-free rate, default is 0.0.
+        allow_short (bool): Flag indicating whether short selling is allowed, default is True.
         """
         self.portfolio = portfolio
         self.risk_free_rate = risk_free_rate
+        self.allow_short = allow_short
         self.num_assets = self.portfolio.get_num_assets()
         self.results = None
 
@@ -56,7 +58,7 @@ class Optimiser:
         OptimizeResult: The result of the optimization.
         """
         constraints = ({'type': 'eq', 'fun': lambda x: np.sum(x) - 1})
-        bounds = tuple((-np.inf, np.inf) for asset in range(self.num_assets))
+        bounds = tuple(((-np.inf, np.inf) if self.allow_short else (0, 1)) for _ in range(self.num_assets))
         initial_weights = self.num_assets * [1. / self.num_assets]
 
         opts = minimize(self.neg_sharpe_ratio, initial_weights, method='SLSQP', bounds=bounds, constraints=constraints)
