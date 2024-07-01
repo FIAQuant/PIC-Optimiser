@@ -8,7 +8,7 @@ class Main:
     Main class for fetching data and running portfolio optimisation.
     """
 
-    def __init__(self, tickers: list, start_date: str, end_date: str, risk_free_rate=0.0):
+    def __init__(self, tickers: list, start_date: str, end_date: str, risk_free_rate=0.0, allow_short=True):
         """
         Initialise the Main object.
 
@@ -21,6 +21,8 @@ class Main:
             End date for fetching historical data.
         risk_free_rate : float, optional
             Risk-free rate for calculating Sharpe ratio, default is 0.0.
+        allow_short : bool, optional
+            Flag indicating whether short selling is allowed, default is True.
         """
         self.tickers = tickers
         self.start_date = start_date
@@ -28,7 +30,7 @@ class Main:
         self.risk_free_rate = risk_free_rate
         self.data = self.fetch_data()
         self.portfolio = Portfolio(self.data)
-        self.optimiser = Optimiser(self.portfolio, risk_free_rate)
+        self.optimiser = Optimiser(self.portfolio, risk_free_rate, allow_short)
 
     def fetch_data(self):
         """
@@ -58,5 +60,5 @@ if __name__ == "__main__":
     start_date = '1990-01-01'
     end_date = '2024-01-01'
 
-    main = Main(tickers, start_date, end_date)
+    main = Main(tickers, start_date, end_date, allow_short=True)
     main.run_optimisation()
