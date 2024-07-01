@@ -2,13 +2,13 @@
 
 Example code for portfolio optimiser
 
-Portfolio Optimiser is a Python package designed to optimise investment portfolios using historical stock data from Yahoo Finance. It provides a simple tool for fetching data, calculating portfolio metrics, and optimising asset allocations based on modern portfolio theory.
+Portfolio Optimiser is a Python package designed to optimise investment portfolios using historical stock data from Yahoo Finance. It provides a simple tool for fetching data, calculating portfolio metrics, and optimising asset allocations based on modern portfolio theory, now including support for short selling.
 
 ## Features
 
 - **Data Fetching**: Fetch historical stock data from Yahoo Finance for specified tickers and date range.
 - **Portfolio Metrics**: Calculate mean returns, covariance matrix, and Sharpe ratio for portfolio evaluation.
-- **Optimisation Algorithms**: Implement optimisation algorithms to find optimal asset allocations by maximising the Sharpe ratio.
+- **Optimisation Algorithms**: Implement optimisation algorithms to find optimal asset allocations by maximising the Sharpe ratio. The optimiser supports both long only and short selling strategies, allowing for flexible portfolio management.
 
 ## Installation
 
@@ -28,7 +28,8 @@ if __name__ == "__main__":
     tickers = ['AAPL', 'MSFT', 'GOOG', 'AMZN', 'NVDA']
     start_date = '2000-01-01'
     end_date = '2024-01-01'
-    main = Main(tickers, start_date, end_date)
+
+    main = Main(tickers, start_date, end_date, allow_short=True)
     main.run_optimisation()
 ```
 
